@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    padding: 20px;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    resize: vertical;
+  }
+  
+  .jogador {
+    margin: 5px 0;
+  }
+  
+  .jogador label {
+    margin-right: 10px;
+  }
+  
+  .times {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .times > div {
+    width: 30%;
+    background: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
