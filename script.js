@@ -1,69 +1,139 @@
+const step1 = document.getElementById("step1");
+const step2 = document.getElementById("step2");
+const step3 = document.getElementById("step3");
+const jogadoresNomesTextarea = document.getElementById("jogadores-nomes");
+const btnCarregarPosicoes = document.getElementById("btn-carregar-posicoes");
+const formPosicoes = document.getElementById("form-posicoes");
+const btnSorteio = document.getElementById("btn-sorteio");
+const timesContainer = document.getElementById("times-container");
+const btnCompartilhar = document.getElementById("btn-compartilhar");
+const containerQtdTimes = document.getElementById("container-qtd-times");
+const inputQtdTimes = document.getElementById("qtd-times");
+
 let jogadores = [];
+let times = [];
 
-document.getElementById("carregar-jogadores").addEventListener("click", function () {
-  const texto = document.getElementById("json-input").value;
-  const linhas = texto.split("\n").map(l => l.trim()).filter(Boolean);
+const nomesTimes = ["Amarelo", "Azul", "Vermelho", "Preto", "Verde", "Branco"];
 
-  const container = document.getElementById("jogadores-container");
-  container.innerHTML = "";
-  jogadores = [];
+function limparNome(nome) {
+  return nome
+    .replace(/^\d+\s*[-–—]\s*/g, "")
+    .replace(/✅/g, "")
+    .replace(/\[.*?\]/g, "")
+    .trim();
+}
 
-  linhas.forEach((linha, index) => {
-    const nome = linha.replace(/^\d+\s*-\s*/, "").replace(/\[.*?\]/g, "").replace(/✅/g, "").trim();
-    const id = `nivel-${index}`;
+function criarFormularioPosicoes(jogadoresNomes) {
+  formPosicoes.innerHTML = "";
+  jogadores = jogadoresNomes.map(nome => ({ nome: nome, nivel: 3 }));
 
+  jogadores.forEach((jogador, idx) => {
     const div = document.createElement("div");
-    div.classList.add("jogador");
-
-    div.innerHTML = `
-      <label>${nome}</label>
-      <select id="${id}">
-        <option value="1">Nível 1</option>
-        <option value="2">Nível 2</option>
-        <option value="3" selected>Nível 3</option>
-        <option value="4">Nível 4</option>
-        <option value="5">Nível 5</option>
-      </select>
+    div.classList.add("form-jogador");
+   div.innerHTML = `
+     <label for="nivel-${idx}">
+     <strong>${jogador.nome}</strong> 
+        <input type="number" id="nivel-${idx}" name="nivel-${idx}" min="1" max="5" value="3" />
+     </label>
     `;
-
-    container.appendChild(div);
-
-    jogadores.push({ nome, nivel: 3, id });
+    formPosicoes.appendChild(div);
   });
+
+  btnSorteio.disabled = jogadores.length === 0;
+}
+
+btnCarregarPosicoes.addEventListener("click", () => {
+  const rawText = jogadoresNomesTextarea.value.trim();
+  if (!rawText) {
+    alert("Digite ao menos um nome.");
+    return;
+  }
+
+  const nomes = rawText
+    .split("\n")
+    .map(n => limparNome(n))
+    .filter(n => n.length > 0);
+
+  if (nomes.length < 2) {
+    alert("Digite ao menos 2 jogadores.");
+    return;
+  }
+
+  const qtdTimes = parseInt(inputQtdTimes.value);
+  if (isNaN(qtdTimes) || qtdTimes < 2 || qtdTimes > 6) {
+    alert("Quantidade inválida de times. Use de 2 a 6.");
+    return;
+  }
+
+  criarFormularioPosicoes(nomes);
+
+  step1.style.display = "none";
+  step2.style.display = "block";
+  containerQtdTimes.style.display = "none";
 });
 
-document.getElementById("sortear").addEventListener("click", function () {
-  jogadores.forEach(j => {
-    j.nivel = parseInt(document.getElementById(j.id).value);
-  });
+formPosicoes.addEventListener("input", (e) => {
+  const target = e.target;
+  const idx = parseInt(target.id.replace("nivel-", ""));
+  let val = parseInt(target.value);
+  if (isNaN(val) || val < 1) val = 1;
+  if (val > 5) val = 5;
+  target.value = val;
+  jogadores[idx].nivel = val;
+});
 
-  const embaralhado = [...jogadores].sort(() => 0.5 - Math.random());
+function sortearTimes() {
+  const qtdTimes = parseInt(inputQtdTimes.value);
+  const jogadoresOrdenados = [...jogadores].sort((a, b) => b.nivel - a.nivel);
+  times = Array.from({ length: qtdTimes }, () => []);
 
-  // Ordena por nível (maiores primeiro)
-  embaralhado.sort((a, b) => b.nivel - a.nivel);
-
-  // Inicializa times e níveis somados
-  const time1 = [], time2 = [], time3 = [];
-  let soma1 = 0, soma2 = 0, soma3 = 0;
-
-  for (const jogador of embaralhado) {
-    if (time1.length < 6 && (soma1 <= soma2 && soma1 <= soma3)) {
-      time1.push(jogador);
-      soma1 += jogador.nivel;
-    } else if (time2.length < 6 && (soma2 <= soma3)) {
-      time2.push(jogador);
-      soma2 += jogador.nivel;
-    } else {
-      time3.push(jogador);
-      soma3 += jogador.nivel;
+  let i = 0;
+  let direcao = 1;
+  for (const jogador of jogadoresOrdenados) {
+    times[i].push(jogador.nome);
+    i += direcao;
+    if (i === qtdTimes || i === -1) {
+      direcao *= -1;
+      i += direcao;
     }
   }
 
-  mostrarTimes(time1, time2, time3);
+  mostrarTimes();
+}
+
+function mostrarTimes() {
+  timesContainer.innerHTML = "";
+  times.forEach((time, idx) => {
+    const cor = nomesTimes[idx] || `Time ${idx + 1}`;
+    const div = document.createElement("div");
+    div.innerHTML = `<h3>Time ${cor}</h3><ul>${time.map(nome => `<li>${nome}</li>`).join("")}</ul>`;
+    timesContainer.appendChild(div);
+  });
+
+  step2.style.display = "none";
+  step3.style.display = "block";
+}
+
+btnSorteio.addEventListener("click", () => {
+  sortearTimes();
 });
 
-function mostrarTimes(time1, time2, time3) {
-  document.getElementById("time1").innerHTML = time1.map(j => `<li>${j.nome}</li>`).join("");
-  document.getElementById("time2").innerHTML = time2.map(j => `<li>${j.nome}</li>`).join("");
-  document.getElementById("time3").innerHTML = time3.map(j => `<li>${j.nome}</li>`).join("");
-}
+btnCompartilhar.addEventListener("click", () => {
+  if (!times || times.length === 0) {
+    alert("Nenhum time para compartilhar.");
+    return;
+  }
+
+  let mensagem = "Times sorteados:\n\n";
+  times.forEach((time, idx) => {
+    const cor = nomesTimes[idx] || `Time ${idx + 1}`;
+    mensagem += `Time ${cor}:\n`;
+    time.forEach(nome => {
+      mensagem += `- ${nome}\n`;
+    });
+    mensagem += "\n";
+  });
+
+  const url = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
+  window.open(url, "_blank");
+});

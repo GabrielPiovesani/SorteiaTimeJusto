@@ -2,37 +2,34 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sorteio de Times</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sortear Times</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>Sorteio de Times Equilibrados</h1>
-
-    <textarea id="json-input" placeholder="Cole os nomes aqui, um por linha..." rows="10"></textarea>
-    <button id="carregar-jogadores">Carregar Jogadores</button>
-
-    <div id="jogadores-container"></div>
-
-    <button id="sortear">Sortear Times</button>
-
-    <div class="times">
-      <div>
-        <h2>Time 1</h2>
-        <ul id="time1"></ul>
+    <div id="step1">
+      <h2>1. Cole a lista de jogadores</h2>
+      <textarea id="jogadores-nomes" placeholder="Cole aqui os nomes dos jogadores"></textarea>
+      <div id="container-qtd-times">
+        <label for="qtd-times">Quantidade de times (2 a 6):</label>
+        <input type="number" id="qtd-times" min="2" max="6" value="2" />
       </div>
-      <div>
-        <h2>Time 2</h2>
-        <ul id="time2"></ul>
-      </div>
-      <div>
-        <h2>Time 3</h2>
-        <ul id="time3"></ul>
-      </div>
+      <button id="btn-carregar-posicoes">Próximo</button>
+    </div>
+
+    <div id="step2" style="display: none">
+      <h2>2. Defina o nível dos jogadores</h2>
+      <form id="form-posicoes"></form>
+      <button id="btn-sorteio">Sortear Times</button>
+    </div>
+
+    <div id="step3" style="display: none">
+      <h2>3. Resultados</h2>
+      <div id="times-container"></div>
+      <button id="btn-compartilhar">Compartilhar no WhatsApp</button>
     </div>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>
