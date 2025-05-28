@@ -11,6 +11,8 @@ const containerQtdTimes = document.getElementById("container-qtd-times");
 const inputQtdTimes = document.getElementById("qtd-times");
 const selectTipoSorteio = document.getElementById("tipo-sorteio");
 const tipoSorteio = selectTipoSorteio.value;
+const btnCopiar = document.getElementById("btn-copiar");
+
 
 
 let jogadores = [];
@@ -204,6 +206,7 @@ btnSorteio.addEventListener("click", () => {
   sortearTimes();
 });
 
+// Botão para abrir WhatsApp (seu código original com ajuste pra abrir app no celular)
 btnCompartilhar.addEventListener("click", () => {
   if (!times || times.length === 0) {
     alert("Nenhum time para compartilhar.");
@@ -220,9 +223,37 @@ btnCompartilhar.addEventListener("click", () => {
     mensagem += "\n";
   });
 
-  const url = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
+  const texto = encodeURIComponent(mensagem);
+  const isMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
+  const url = isMobile
+    ? `https://wa.me/?text=${texto}`
+    : `https://web.whatsapp.com/send?text=${texto}`;
+
   window.open(url, "_blank");
 });
+
+// Novo botão para copiar a mensagem
+btnCopiar.addEventListener("click", () => {
+  if (!times || times.length === 0) {
+    alert("Nenhum time para copiar.");
+    return;
+  }
+
+  let mensagem = "Times sorteados:\n\n";
+  times.forEach((time, idx) => {
+    const cor = nomesTimes[idx] || `Time ${idx + 1}`;
+    mensagem += `Time ${cor}:\n`;
+    time.forEach(nome => {
+      mensagem += `- ${nome}\n`;
+    });
+    mensagem += "\n";
+  });
+
+  navigator.clipboard.writeText(mensagem)
+    .then(() => alert("Mensagem copiada para a área de transferência!"))
+    .catch(() => alert("Não foi possível copiar a mensagem."));
+});
+
 
 
 function embaralhar(lista) {
