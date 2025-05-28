@@ -11,10 +11,27 @@
     <div id="step1">
       <h2>1. Cole a lista de jogadores</h2>
       <textarea id="jogadores-nomes" placeholder="Cole aqui os nomes dos jogadores"></textarea>
-      <div id="container-qtd-times">
-        <label for="qtd-times">Quantidade de times (2 a 6):</label>
-        <input type="number" id="qtd-times" min="2" max="6" value="2" />
-      </div>
+    <div id="container-qtd-times">
+  <label>Quantidade de times:</label>
+  <div id="botoes-qtd-times">
+    <button type="button" class="botao-qtd-time selecionado" data-qtd="2">2</button>
+    <button type="button" class="botao-qtd-time" data-qtd="3">3</button>
+    <button type="button" class="botao-qtd-time" data-qtd="4">4</button>
+    <button type="button" class="botao-qtd-time" data-qtd="5">5</button>
+    <button type="button" class="botao-qtd-time" data-qtd="6">6</button>
+  </div>
+  <input type="hidden" id="qtd-times" value="2" />
+</div>
+
+<div id="tipo-sorteio-container">
+  <label for="tipo-sorteio">Tipo de sorteio:</label>
+  <select id="tipo-sorteio">
+    <option value="nivel">Por Nível</option>
+    <option value="posicao">Por Posição</option>
+    <option value="nivel_posicao">Por Nível e Posição</option>
+    <option value="aleatorio">Aleatório</option>
+  </select>
+</div>
       <button id="btn-carregar-posicoes">Próximo</button>
     </div>
 

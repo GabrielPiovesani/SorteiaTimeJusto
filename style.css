@@ -1,64 +1,233 @@
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
-  padding: 20px;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-image: url('https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=1470&q=80');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  backdrop-filter: brightness(0.6);
+  min-height: 100vh;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 2rem;
+  border-radius: 16px;
   max-width: 600px;
-  margin: 0 auto;
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
-textarea {
-  width: 100%;
-  height: 150px;
-  margin-bottom: 10px;
-}
-
-button {
-  display: block;
-  margin-top: 10px;
-  padding: 10px;
-  width: 100%;
+h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 2rem;
 }
 
 .form-jogador {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #222;
+  border-radius: 10px;
+}
+
+/* Linha com nome + botões de nível */
+.linha-jogador-nivel {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+
+
+
+/* Nome do jogador com nível */
+.jogador-nome {
+  font-weight: bold;
+  color: white;
+  font-size: 16px;
+  margin-bottom: 2px;
+}
+
+
+/* Linha de posição */
+.linha-posicao {
+  display: flex;
+  align-items: center;
+  margin-top: 6px;
+  gap: 12px;
+}
+
+/* Label "Posição:" */
+.posicao-label {
+  min-width: 70px;
+  font-weight: bold;
+  color: #ccc;
+}
+.botoes-nivel {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.jogador-info {
   display: flex;
   flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+/* Botões de nível e posição */
+.botoes-nivel button,
+.botoes-posicao button {
+  padding: 6px 12px;
+  margin: 0;
+  border-radius: 8px;
+  border: none;
+  background-color: #00a896;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  min-width: 40px;
+  text-align: center;
+}
+
+.botoes-nivel button:hover,
+.botoes-posicao button:hover {
+  background-color: #02c3bd;
+}
+
+/* Botões selecionados */
+.selecionado {
+  background-color: #028090 !important;
+}
+/* Container do passo 1 */
+#step1 {
+  margin-bottom: 2rem;
+}
+
+/* Título do passo 1 */
+#step1 h2 {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* Textarea para colar os nomes dos jogadores */
+#jogadores-nomes {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #555;
+  padding: 10px;
+  background-color: #222;
+  color: #eee;
+  font-family: monospace;
+  font-size: 1rem;
+  resize: vertical;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.3s;
+}
+
+#jogadores-nomes:focus {
+  outline: none;
+  border-color: #00a896;
+}
+
+/* Container para os controles de quantidade e tipo de sorteio */
+#container-qtd-times,
+#tipo-sorteio-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  align-items: center;
+}
+
+/* Para os elementos internos: label e input/select */
+#container-qtd-times label,
+#tipo-sorteio-container label {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #ccc;
+  margin-right: 8px;
+  min-width: 200px;
+}
+
+#qtd-times {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #555;
+  background-color: #222;
+  color: #eee;
+  font-size: 1rem;
+  max-width: 80px;
+  min-width: 50px;
+}
+
+/* Estilo para o select */
+#tipo-sorteio {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #555;
+  background-color: #222;
+  color: #eee;
+  font-size: 1rem;
+  min-width: 200px;
+}
+
+/* Botão "Próximo" com visual mais moderno */
+#btn-carregar-posicoes {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background-color: #00a896;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 1rem;
+  align-self: flex-start;
+}
+
+#btn-carregar-posicoes:hover {
+  background-color: #02c3bd;
+}
+
+.linha-jogador-nivel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  background-color: #1e1e1e;
+  border-radius: 8px;
   margin-bottom: 10px;
 }
 
-.botoes-nivel {
+.jogador-info {
   display: flex;
-  gap: 8px;
-  margin-top: 5px;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
 }
 
-.botao-nivel {
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  background-color: #f0f0f0;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.botao-nivel.selecionado {
-  background-color: #007bff;
+.jogador-nome {
   color: white;
-  border-color: #007bff;
+  font-size: 16px;
 }
 
-#times-container {
-  margin-top: 20px;
-}
-
-#times-container div {
-  margin-bottom: 20px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.botoes-nivel, .botoes-posicao {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
 }
