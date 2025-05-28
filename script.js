@@ -30,13 +30,37 @@ function criarFormularioPosicoes(jogadoresNomes) {
   jogadores.forEach((jogador, idx) => {
     const div = document.createElement("div");
     div.classList.add("form-jogador");
-   div.innerHTML = `
-     <label for="nivel-${idx}">
-     <strong>${jogador.nome}</strong> 
-        <input type="number" id="nivel-${idx}" name="nivel-${idx}" min="1" max="5" value="3" />
-     </label>
+
+    const niveis = ["1", "2", "3", "4", "5"];
+
+    const botoes = niveis.map((nivel, i) => 
+      `<button type="button" class="botao-nivel" data-valor="${i + 1}">${nivel}</button>`
+    ).join("");
+
+    div.innerHTML = `
+      <label>
+        <strong>${jogador.nome}</strong>
+        <div class="botoes-nivel" id="nivel-${idx}">
+          ${botoes}
+        </div>
+        <input type="hidden" name="nivel-${idx}" value="3" />
+      </label>
     `;
+
     formPosicoes.appendChild(div);
+  });
+
+  formPosicoes.querySelectorAll(".botao-nivel").forEach(btn => {
+    btn.addEventListener("click", function () {
+      const grupo = this.parentElement;
+      grupo.querySelectorAll(".botao-nivel").forEach(b => b.classList.remove("selecionado"));
+      this.classList.add("selecionado");
+
+      const valor = this.getAttribute("data-valor");
+      const idx = parseInt(grupo.id.replace("nivel-", ""));
+      jogadores[idx].nivel = parseInt(valor);
+      grupo.parentElement.querySelector("input[type='hidden']").value = valor;
+    });
   });
 
   btnSorteio.disabled = jogadores.length === 0;
@@ -72,29 +96,25 @@ btnCarregarPosicoes.addEventListener("click", () => {
   containerQtdTimes.style.display = "none";
 });
 
-formPosicoes.addEventListener("input", (e) => {
-  const target = e.target;
-  const idx = parseInt(target.id.replace("nivel-", ""));
-  let val = parseInt(target.value);
-  if (isNaN(val) || val < 1) val = 1;
-  if (val > 5) val = 5;
-  target.value = val;
-  jogadores[idx].nivel = val;
-});
-
 function sortearTimes() {
   const qtdTimes = parseInt(inputQtdTimes.value);
   const jogadoresOrdenados = [...jogadores].sort((a, b) => b.nivel - a.nivel);
   times = Array.from({ length: qtdTimes }, () => []);
 
-  let i = 0;
   let direcao = 1;
+  let i = 0;
+
   for (const jogador of jogadoresOrdenados) {
     times[i].push(jogador.nome);
+
     i += direcao;
-    if (i === qtdTimes || i === -1) {
-      direcao *= -1;
-      i += direcao;
+
+    if (i === qtdTimes) {
+      i = qtdTimes - 1;
+      direcao = -1;
+    } else if (i < 0) {
+      i = 0;
+      direcao = 1;
     }
   }
 

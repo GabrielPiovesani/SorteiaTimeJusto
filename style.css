@@ -28,22 +28,29 @@ button {
 
 .form-jogador {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 8px;
+  flex-direction: column;
+  margin-bottom: 10px;
 }
 
-.form-jogador label {
-  margin-right: 5px;
-  white-space: nowrap;
-  flex-grow: 1;
+.botoes-nivel {
+  display: flex;
+  gap: 8px;
+  margin-top: 5px;
 }
 
-.form-jogador input {
-  width: 50px;
+.botao-nivel {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
+.botao-nivel.selecionado {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
 
 #times-container {
   margin-top: 20px;
