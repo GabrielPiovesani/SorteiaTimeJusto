@@ -1,3 +1,4 @@
+// --- Elementos do DOM ---
 const step1 = document.getElementById("step1");
 const step2 = document.getElementById("step2");
 const step3 = document.getElementById("step3");
@@ -10,16 +11,40 @@ const btnCompartilhar = document.getElementById("btn-compartilhar");
 const containerQtdTimes = document.getElementById("container-qtd-times");
 const inputQtdTimes = document.getElementById("qtd-times");
 const selectTipoSorteio = document.getElementById("tipo-sorteio");
-const tipoSorteio = selectTipoSorteio.value;
 const btnCopiar = document.getElementById("btn-copiar");
 
+// --- Elementos do Modal ---
+const modal = document.getElementById("meuModal");
+const modalMensagem = document.getElementById("modal-mensagem");
+const spanClose = document.getElementsByClassName("close")[0];
 
-
+// --- Variáveis Globais ---
 let jogadores = [];
 let times = [];
 let tipoSorteioSelecionado = "nivel";
-
 const nomesTimes = ["Amarelo", "Azul", "Vermelho", "Preto", "Verde", "Branco"];
+
+// --- Lógica do Modal ---
+
+// Função para mostrar o modal com uma mensagem
+function mostrarModal(mensagem) {
+  modalMensagem.textContent = mensagem;
+  modal.style.display = "block";
+}
+
+// Quando o usuário clica no (X), fecha o modal
+spanClose.onclick = function() {
+  modal.style.display = "none";
+}
+
+// Quando o usuário clica fora do modal, fecha o modal
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+// --- Lógica do Aplicativo ---
 
 function limparNome(nome) {
   return nome
@@ -48,7 +73,7 @@ function criarFormularioPosicoes(jogadoresNomes) {
       html += `
         <div class="linha-jogador-nivel">
           <div class="botoes-nivel" id="nivel-${idx}">
-            ${["1", "2", "3", "4", "5"].map((nivel, i) => 
+            ${["1", "2", "3", "4", "5", "6"].map((nivel, i) => // <-- ALTERAÇÃO PARA 6 NÍVEIS
               `<button type="button" class="botao-nivel${nivel == jogador.nivel ? ' selecionado' : ''}" data-valor="${nivel}">${nivel}</button>`
             ).join("")}
           </div>
@@ -108,7 +133,6 @@ function criarFormularioPosicoes(jogadoresNomes) {
   btnSorteio.disabled = jogadores.length === 0;
 }
 
-
 // Evento para seleção de quantidade de times (como os botões de nível)
 document.querySelectorAll(".botao-qtd-time").forEach(btn => {
   btn.addEventListener("click", function () {
@@ -120,12 +144,10 @@ document.querySelectorAll(".botao-qtd-time").forEach(btn => {
   });
 });
 
-
-
 btnCarregarPosicoes.addEventListener("click", () => {
   const rawText = jogadoresNomesTextarea.value.trim();
   if (!rawText) {
-    alert("Digite ao menos um nome.");
+    mostrarModal("Digite ao menos um nome."); // <-- MUDANÇA: alert -> mostrarModal
     return;
   }
 
@@ -137,13 +159,13 @@ btnCarregarPosicoes.addEventListener("click", () => {
     .filter(n => n.length > 0);
 
   if (nomes.length < 2) {
-    alert("Digite ao menos 2 jogadores.");
+    mostrarModal("Digite ao menos 2 jogadores."); // <-- MUDANÇA: alert -> mostrarModal
     return;
   }
 
   const qtdTimes = parseInt(inputQtdTimes.value);
   if (isNaN(qtdTimes) || qtdTimes < 2 || qtdTimes > 6) {
-    alert("Quantidade inválida de times. Use de 2 a 6.");
+    mostrarModal("Quantidade inválida de times. Use de 2 a 6."); // <-- MUDANÇA: alert -> mostrarModal
     return;
   }
 
@@ -154,10 +176,8 @@ btnCarregarPosicoes.addEventListener("click", () => {
   containerQtdTimes.style.display = "none";
 });
 
-
 function sortearTimes() {
   const qtdTimes = parseInt(inputQtdTimes.value);
-
   let jogadoresParaSortear = [...jogadores];
 
   if (tipoSorteioSelecionado === "nivel" || tipoSorteioSelecionado === "nivel_posicao") {
@@ -184,10 +204,8 @@ function sortearTimes() {
       direcao = 1;
     }
   }
-
   mostrarTimes();
 }
-
 
 function mostrarTimes() {
   timesContainer.innerHTML = "";
@@ -206,10 +224,10 @@ btnSorteio.addEventListener("click", () => {
   sortearTimes();
 });
 
-// Botão para abrir WhatsApp (seu código original com ajuste pra abrir app no celular)
+// Botão para abrir WhatsApp
 btnCompartilhar.addEventListener("click", () => {
   if (!times || times.length === 0) {
-    alert("Nenhum time para compartilhar.");
+    mostrarModal("Nenhum time para compartilhar."); // <-- MUDANÇA: alert -> mostrarModal
     return;
   }
 
@@ -226,7 +244,7 @@ btnCompartilhar.addEventListener("click", () => {
   const texto = encodeURIComponent(mensagem);
   const isMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
   const url = isMobile
-    ? `https://wa.me/?text=${texto}`
+    ? `https: //wa.me/?text=${texto}`
     : `https://web.whatsapp.com/send?text=${texto}`;
 
   window.open(url, "_blank");
@@ -235,7 +253,7 @@ btnCompartilhar.addEventListener("click", () => {
 // Novo botão para copiar a mensagem
 btnCopiar.addEventListener("click", () => {
   if (!times || times.length === 0) {
-    alert("Nenhum time para copiar.");
+    mostrarModal("Nenhum time para copiar."); // <-- MUDANÇA: alert -> mostrarModal
     return;
   }
 
@@ -250,12 +268,11 @@ btnCopiar.addEventListener("click", () => {
   });
 
   navigator.clipboard.writeText(mensagem)
-    .then(() => alert("Mensagem copiada para a área de transferência!"))
-    .catch(() => alert("Não foi possível copiar a mensagem."));
+    .then(() => mostrarModal("Mensagem copiada para a área de transferência!")) // <-- MUDANÇA: alert -> mostrarModal
+    .catch(() => mostrarModal("Não foi possível copiar a mensagem.")); // <-- MUDANÇA: alert -> mostrarModal
 });
 
-
-
+// Função para embaralhar
 function embaralhar(lista) {
   for (let i = lista.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));

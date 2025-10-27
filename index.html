@@ -5,11 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sortear Times</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
   <div class="container">
     <div id="step1">
-      <h2>1. Cole a lista de jogadores</h2>
+      <h2>Cole a lista de jogadores</h2>
       <textarea id="jogadores-nomes" placeholder="Cole aqui os nomes dos jogadores"></textarea>
     <div id="container-qtd-times">
   <label>Quantidade de times:</label>
@@ -36,7 +37,7 @@
     </div>
 
     <div id="step2" style="display: none">
-      <h2>2. Defina o nível dos jogadores</h2>
+      <h2>Defina o nível dos jogadores</h2>
       <form id="form-posicoes"></form>
       <button id="btn-sorteio">Sortear Times</button>
     </div>
@@ -48,6 +49,28 @@
       <button id="btn-copiar">Copiar mensagem</button>
     </div>
   </div>
+
+  <div id="meuModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="modal-mensagem"></p>
+  </div>
+</div>
+
+<footer class="footer-icones">
+  <a href="https://www.linkedin.com/in/gabrielpiovesani/" target="_blank" aria-label="LinkedIn de Gabriel Piovesani">
+    <i class="fa-brands fa-linkedin"></i>
+  </a>
+  <a href="https://github.com/GabrielPiovesani" target="_blank" aria-label="GitHub de DEV PIOVESANI">
+    <i class="fa-brands fa-github"></i>
+  </a>
+</footer>
+
+</body>
+</html>
+
+</body>
+</html>
   <script src="script.js"></script>
 </body>
 </html>
