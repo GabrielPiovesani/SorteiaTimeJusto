@@ -12,65 +12,64 @@
     <div id="step1">
       <h2>Cole a lista de jogadores</h2>
       <textarea id="jogadores-nomes" placeholder="Cole aqui os nomes dos jogadores"></textarea>
-    <div id="container-qtd-times">
-  <label>Quantidade de times:</label>
-  <div id="botoes-qtd-times">
-    <button type="button" class="botao-qtd-time selecionado" data-qtd="2">2</button>
-    <button type="button" class="botao-qtd-time" data-qtd="3">3</button>
-    <button type="button" class="botao-qtd-time" data-qtd="4">4</button>
-    <button type="button" class="botao-qtd-time" data-qtd="5">5</button>
-    <button type="button" class="botao-qtd-time" data-qtd="6">6</button>
-  </div>
-  <input type="hidden" id="qtd-times" value="2" />
-</div>
+      
+      <div id="container-qtd-times">
+        <label>Quantidade de times:</label>
+        <div id="botoes-qtd-times">
+          <button type="button" class="botao-qtd-time selecionado" data-qtd="2">2</button>
+          <button type="button" class="botao-qtd-time" data-qtd="3">3</button>
+          <button type="button" class="botao-qtd-time" data-qtd="4">4</button>
+          <button type="button" class="botao-qtd-time" data-qtd="5">5</button>
+          <button type="button" class="botao-qtd-time" data-qtd="6">6</button>
+        </div>
+        <input type="hidden" id="qtd-times" value="2" />
+      </div>
 
-<div id="tipo-sorteio-container">
-  <label for="tipo-sorteio">Tipo de sorteio:</label>
-  <select id="tipo-sorteio">
-    <option value="nivel">Por Nível</option>
-    <option value="posicao">Por Posição</option>
-    <option value="nivel_posicao">Por Nível e Posição</option>
-    <option value="aleatorio">Aleatório</option>
-  </select>
-</div>
+      <div id="tipo-sorteio-container">
+        <label for="tipo-sorteio">Tipo de sorteio:</label>
+        <select id="tipo-sorteio">
+          <option value="nivel">Por Nível</option>
+          <option value="posicao">Por Posição</option>
+          <option value="nivel_posicao">Por Nível e Posição</option>
+          <option value="aleatorio">Aleatório</option>
+        </select>
+      </div>
+      
       <button id="btn-carregar-posicoes">Próximo</button>
     </div>
 
     <div id="step2" style="display: none">
-      <h2>Defina o nível dos jogadores</h2>
+      <h2>Defina o nível e posição</h2>
       <form id="form-posicoes"></form>
       <button id="btn-sorteio">Sortear Times</button>
     </div>
 
     <div id="step3" style="display: none">
-      <h2>3. Resultados</h2>
+      <h2>Resultados</h2>
       <div id="times-container"></div>
-      <button id="btn-compartilhar">Compartilhar no WhatsApp</button>
+      
+      <button id="btn-sortear-novamente">Sortear Novamente</button>
+      
       <button id="btn-copiar">Copiar mensagem</button>
     </div>
   </div>
 
   <div id="meuModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p id="modal-mensagem"></p>
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p id="modal-mensagem"></p>
+    </div>
   </div>
-</div>
 
-<footer class="footer-icones">
-  <a href="https://www.linkedin.com/in/gabrielpiovesani/" target="_blank" aria-label="LinkedIn de Gabriel Piovesani">
-    <i class="fa-brands fa-linkedin"></i>
-  </a>
-  <a href="https://github.com/GabrielPiovesani" target="_blank" aria-label="GitHub de DEV PIOVESANI">
-    <i class="fa-brands fa-github"></i>
-  </a>
-</footer>
-
-</body>
-</html>
-
-</body>
-</html>
+  <footer class="footer-icones">
+    <a href="https://www.linkedin.com/in/gabrielpiovesani/" target="_blank" aria-label="LinkedIn de Gabriel Piovesani">
+      <i class="fa-brands fa-linkedin"></i>
+    </a>
+    <a href="https://github.com/GabrielPiovesani" target="_blank" aria-label="GitHub de DEV PIOVESANI">
+      <i class="fa-brands fa-github"></i>
+    </a>
+  </footer>
+  
   <script src="script.js"></script>
 </body>
 </html>

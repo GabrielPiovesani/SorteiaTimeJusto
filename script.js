@@ -7,11 +7,12 @@ const btnCarregarPosicoes = document.getElementById("btn-carregar-posicoes");
 const formPosicoes = document.getElementById("form-posicoes");
 const btnSorteio = document.getElementById("btn-sorteio");
 const timesContainer = document.getElementById("times-container");
-const btnCompartilhar = document.getElementById("btn-compartilhar");
+// const btnCompartilhar = document.getElementById("btn-compartilhar"); // <-- REMOVIDO
 const containerQtdTimes = document.getElementById("container-qtd-times");
 const inputQtdTimes = document.getElementById("qtd-times");
 const selectTipoSorteio = document.getElementById("tipo-sorteio");
 const btnCopiar = document.getElementById("btn-copiar");
+const btnSortearNovamente = document.getElementById("btn-sortear-novamente");
 
 // --- Elementos do Modal ---
 const modal = document.getElementById("meuModal");
@@ -26,18 +27,15 @@ const nomesTimes = ["Amarelo", "Azul", "Vermelho", "Preto", "Verde", "Branco"];
 
 // --- Lógica do Modal ---
 
-// Função para mostrar o modal com uma mensagem
 function mostrarModal(mensagem) {
   modalMensagem.textContent = mensagem;
   modal.style.display = "block";
 }
 
-// Quando o usuário clica no (X), fecha o modal
 spanClose.onclick = function() {
   modal.style.display = "none";
 }
 
-// Quando o usuário clica fora do modal, fecha o modal
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
@@ -67,25 +65,22 @@ function criarFormularioPosicoes(jogadoresNomes) {
     const div = document.createElement("div");
     div.classList.add("form-jogador");
 
-    let html = `<span class="jogador-nome"><strong>${jogador.nome}</strong></span>`;
+    let html = `<span class="jogador-nome">${jogador.nome}</span>`;
 
     if (tipoSorteioSelecionado === "nivel" || tipoSorteioSelecionado === "nivel_posicao") {
       html += `
-        <div class="linha-jogador-nivel">
-          <div class="botoes-nivel" id="nivel-${idx}">
-            ${["1", "2", "3", "4", "5", "6"].map((nivel, i) => // <-- ALTERAÇÃO PARA 6 NÍVEIS
-              `<button type="button" class="botao-nivel${nivel == jogador.nivel ? ' selecionado' : ''}" data-valor="${nivel}">${nivel}</button>`
-            ).join("")}
-          </div>
-          <input type="hidden" name="nivel-${idx}" value="${jogador.nivel}" />
+        <div class="botoes-nivel" id="nivel-${idx}">
+          ${["1", "2", "3", "4", "5", "6"].map((nivel, i) =>
+            `<button type="button" class="botao-nivel${nivel == jogador.nivel ? ' selecionado' : ''}" data-valor="${nivel}">${nivel}</button>`
+          ).join("")}
         </div>
+        <input type="hidden" name="nivel-${idx}" value="${jogador.nivel}" />
       `;
     }
 
     if (tipoSorteioSelecionado === "posicao" || tipoSorteioSelecionado === "nivel_posicao") {
       html += `
         <div class="botoes-posicao" id="posicao-${idx}">
-          <span class="jogador-nome"><strong>Posição:</strong></span>
           ${["Zag", "Meia", "Atak", "Bagre"].map(pos =>
             `<button type="button" class="botao-posicao" data-valor="${pos}">${pos}</button>`
           ).join("")}
@@ -109,7 +104,11 @@ function criarFormularioPosicoes(jogadoresNomes) {
         const valor = this.getAttribute("data-valor");
         const idx = parseInt(grupo.id.replace("nivel-", ""));
         jogadores[idx].nivel = parseInt(valor);
-        grupo.parentElement.querySelector(`input[name='nivel-${idx}']`).value = valor;
+        
+        const formJogadorDiv = grupo.closest('.form-jogador');
+        if (formJogadorDiv) {
+            formJogadorDiv.querySelector(`input[name='nivel-${idx}']`).value = valor;
+        }
       });
     });
   }
@@ -125,7 +124,11 @@ function criarFormularioPosicoes(jogadoresNomes) {
         const valor = this.getAttribute("data-valor");
         const idx = parseInt(grupo.id.replace("posicao-", ""));
         jogadores[idx].posicao = valor;
-        grupo.parentElement.querySelector(`input[name='posicao-${idx}']`).value = valor;
+        
+        const formJogadorDiv = grupo.closest('.form-jogador');
+        if (formJogadorDiv) {
+          formJogadorDiv.querySelector(`input[name='posicao-${idx}']`).value = valor;
+        }
       });
     });
   }
@@ -133,7 +136,7 @@ function criarFormularioPosicoes(jogadoresNomes) {
   btnSorteio.disabled = jogadores.length === 0;
 }
 
-// Evento para seleção de quantidade de times (como os botões de nível)
+// Evento para seleção de quantidade de times
 document.querySelectorAll(".botao-qtd-time").forEach(btn => {
   btn.addEventListener("click", function () {
     document.querySelectorAll(".botao-qtd-time").forEach(b => b.classList.remove("selecionado"));
@@ -144,14 +147,15 @@ document.querySelectorAll(".botao-qtd-time").forEach(btn => {
   });
 });
 
+// Botão PRÓXIMO (Step 1)
 btnCarregarPosicoes.addEventListener("click", () => {
   const rawText = jogadoresNomesTextarea.value.trim();
   if (!rawText) {
-    mostrarModal("Digite ao menos um nome."); // <-- MUDANÇA: alert -> mostrarModal
+    mostrarModal("Digite ao menos um nome.");
     return;
   }
 
-  tipoSorteioSelecionado = selectTipoSorteio.value; // <- ESSENCIAL
+  tipoSorteioSelecionado = selectTipoSorteio.value;
 
   const nomes = rawText
     .split("\n")
@@ -159,13 +163,13 @@ btnCarregarPosicoes.addEventListener("click", () => {
     .filter(n => n.length > 0);
 
   if (nomes.length < 2) {
-    mostrarModal("Digite ao menos 2 jogadores."); // <-- MUDANÇA: alert -> mostrarModal
+    mostrarModal("Digite ao menos 2 jogadores.");
     return;
   }
 
   const qtdTimes = parseInt(inputQtdTimes.value);
   if (isNaN(qtdTimes) || qtdTimes < 2 || qtdTimes > 6) {
-    mostrarModal("Quantidade inválida de times. Use de 2 a 6."); // <-- MUDANÇA: alert -> mostrarModal
+    mostrarModal("Quantidade inválida de times. Use de 2 a 6.");
     return;
   }
 
@@ -173,29 +177,69 @@ btnCarregarPosicoes.addEventListener("click", () => {
 
   step1.style.display = "none";
   step2.style.display = "block";
-  containerQtdTimes.style.display = "none";
 });
+
+
+// ==========================================================
+// FUNÇÃO SORTEARTIMES (LÓGICA CORRIGIDA E ATUALIZADA)
+// ==========================================================
 
 function sortearTimes() {
   const qtdTimes = parseInt(inputQtdTimes.value);
-  let jogadoresParaSortear = [...jogadores];
+  let jogadoresParaSortear = [...jogadores]; 
 
-  if (tipoSorteioSelecionado === "nivel" || tipoSorteioSelecionado === "nivel_posicao") {
-    jogadoresParaSortear.sort((a, b) => b.nivel - a.nivel);
-  } else if (tipoSorteioSelecionado === "aleatorio") {
-    embaralhar(jogadoresParaSortear);
+  // Ordena a lista baseado no tipo de sorteio
+  switch (tipoSorteioSelecionado) {
+    case "nivel":
+      // Ordena por nível, e embaralha jogadores de mesmo nível
+      jogadoresParaSortear.sort((a, b) => {
+        if (b.nivel !== a.nivel) {
+          return b.nivel - a.nivel;
+        }
+        return Math.random() - 0.5; // <-- NOVO: Embaralha empates
+      });
+      break;
+
+    case "posicao":
+      // Ordena por posição, e embaralha jogadores de mesma posição
+      jogadoresParaSortear.sort((a, b) => {
+        const compPosicao = a.posicao.localeCompare(b.posicao);
+        if (compPosicao !== 0) {
+          return compPosicao;
+        }
+        return Math.random() - 0.5; // <-- NOVO: Embaralha empates
+      });
+      break;
+
+    case "nivel_posicao":
+      // Ordenação multi-nível com embaralhamento em empates
+      jogadoresParaSortear.sort((a, b) => {
+        if (b.nivel !== a.nivel) {
+          return b.nivel - a.nivel; // 1. Ordena por nível
+        }
+        const compPosicao = a.posicao.localeCompare(b.posicao);
+        if (compPosicao !== 0) {
+          return compPosicao; // 2. Ordena por posição
+        }
+        return Math.random() - 0.5; // 3. Embaralha empates
+      });
+      break;
+
+    case "aleatorio":
+    default:
+      embaralhar(jogadoresParaSortear);
+      break;
   }
 
   times = Array.from({ length: qtdTimes }, () => []);
 
+  // Lógica de distribuição "snake draft"
   let direcao = 1;
   let i = 0;
 
   for (const jogador of jogadoresParaSortear) {
     times[i].push(jogador.nome);
-
     i += direcao;
-
     if (i === qtdTimes) {
       i = qtdTimes - 1;
       direcao = -1;
@@ -204,15 +248,23 @@ function sortearTimes() {
       direcao = 1;
     }
   }
+  
   mostrarTimes();
 }
 
+// ==========================================================
+// FUNÇÃO PARA MOSTRAR OS TIMES (Step 3)
+// ==========================================================
 function mostrarTimes() {
-  timesContainer.innerHTML = "";
+  timesContainer.innerHTML = ""; // Limpa resultados anteriores
+  
   times.forEach((time, idx) => {
     const cor = nomesTimes[idx] || `Time ${idx + 1}`;
     const div = document.createElement("div");
-    div.innerHTML = `<h3>Time ${cor}</h3><ul>${time.map(nome => `<li>${nome}</li>`).join("")}</ul>`;
+    
+    let jogadoresHTML = time.map(nome => `<li>${nome}</li>`).join("");
+    div.innerHTML = `<h3>Time ${cor}</h3><ul>${jogadoresHTML}</ul>`;
+    
     timesContainer.appendChild(div);
   });
 
@@ -220,40 +272,24 @@ function mostrarTimes() {
   step3.style.display = "block";
 }
 
+// Botão SORTEAR TIMES (Step 2)
 btnSorteio.addEventListener("click", () => {
-  sortearTimes();
+  sorteioValidar();
 });
 
-// Botão para abrir WhatsApp
-btnCompartilhar.addEventListener("click", () => {
-  if (!times || times.length === 0) {
-    mostrarModal("Nenhum time para compartilhar."); // <-- MUDANÇA: alert -> mostrarModal
-    return;
-  }
-
-  let mensagem = "Times sorteados:\n\n";
-  times.forEach((time, idx) => {
-    const cor = nomesTimes[idx] || `Time ${idx + 1}`;
-    mensagem += `Time ${cor}:\n`;
-    time.forEach(nome => {
-      mensagem += `- ${nome}\n`;
-    });
-    mensagem += "\n";
-  });
-
-  const texto = encodeURIComponent(mensagem);
-  const isMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
-  const url = isMobile
-    ? `https: //wa.me/?text=${texto}`
-    : `https://web.whatsapp.com/send?text=${texto}`;
-
-  window.open(url, "_blank");
+// Botão SORTEAR NOVAMENTE (Step 3)
+btnSortearNovamente.addEventListener("click", () => {
+  sorteioValidar(); 
 });
 
-// Novo botão para copiar a mensagem
+
+// Botão para abrir WhatsApp (REMOVIDO)
+// ...
+
+// Botão para copiar a mensagem
 btnCopiar.addEventListener("click", () => {
   if (!times || times.length === 0) {
-    mostrarModal("Nenhum time para copiar."); // <-- MUDANÇA: alert -> mostrarModal
+    mostrarModal("Nenhum time para copiar.");
     return;
   }
 
@@ -268,14 +304,38 @@ btnCopiar.addEventListener("click", () => {
   });
 
   navigator.clipboard.writeText(mensagem)
-    .then(() => mostrarModal("Mensagem copiada para a área de transferência!")) // <-- MUDANÇA: alert -> mostrarModal
-    .catch(() => mostrarModal("Não foi possível copiar a mensagem.")); // <-- MUDANÇA: alert -> mostrarModal
+    .then(() => mostrarModal("Mensagem copiada para a área de transferência!"))
+    .catch(() => mostrarModal("Não foi possível copiar a mensagem."));
 });
 
-// Função para embaralhar
+// Função para embaralhar (Fisher-Yates)
 function embaralhar(lista) {
   for (let i = lista.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [lista[i], lista[j]] = [lista[j], lista[i]];
+  }
+}
+
+// VALIDAÇÃO ANTES DE SORTEAR
+function sorteioValidar() {
+  let formularioValido = true;
+
+  if (tipoSorteioSelecionado === "posicao" || tipoSorteioSelecionado === "nivel_posicao") {
+    for (const jogador of jogadores) {
+      if (!jogador.posicao || jogador.posicao === "") {
+        formularioValido = false;
+        mostrarModal(`Por favor, defina a posição do jogador: ${jogador.nome}`);
+        
+        // Se a posição não foi definida, temos que voltar pro Step 2
+        step3.style.display = "none";
+        step2.style.display = "block";
+        
+        break; 
+      }
+    }
+  }
+
+  if (formularioValido) {
+    sortearTimes();
   }
 }

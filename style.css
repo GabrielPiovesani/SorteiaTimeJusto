@@ -1,8 +1,8 @@
 body {
   margin: 0;
-  padding: 0;
+  padding: 2rem 0;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-image: url('https://images.pexels.com/photos/270085/pexels-photo-270085.jpeg');
+  background-image: url('backgrounddev.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -12,6 +12,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
 .container {
@@ -23,68 +25,131 @@ body {
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
-h1 {
+h1, h2 {
   text-align: center;
-  margin-bottom: 1rem;
-  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #fff;
 }
 
-.form-jogador {
-  margin-bottom: 10px;
-  padding: 10px;
+/* --- ESTILO DOS BOTÕES PRINCIPAIS --- */
+#btn-carregar-posicoes,
+#btn-sorteio,
+#step3 button { /* Isso pega TODOS os botões no step3 */
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background-color: #00a896;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 1rem;
+  font-size: 1rem;
+  margin-right: 8px; /* Espaço entre os botões do step3 */
+}
+
+#btn-carregar-posicoes:hover,
+#btn-sorteio:hover,
+#step3 button:hover {
+  background-color: #02c3bd;
+}
+
+/* --- STEP 1: Lista de Jogadores --- */
+#step1 {
+  margin-bottom: 2rem;
+}
+
+#jogadores-nomes {
+  width: 100%;
+  min-height: 100px;
+  box-sizing: border-box; /* Garante que o padding não estoure */
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #555;
   background-color: #222;
+  color: #eee;
+  font-family: monospace;
+  font-size: 1rem;
+  resize: vertical;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.3s;
+}
+
+#jogadores-nomes:focus {
+  outline: none;
+  border-color: #00a896;
+}
+
+#container-qtd-times,
+#tipo-sorteio-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  align-items: center;
+}
+
+#container-qtd-times label,
+#tipo-sorteio-container label {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #ccc;
+  margin-right: 8px;
+}
+
+/* Botões de Quantidade de Times */
+#botoes-qtd-times .botao-qtd-time {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  background-color: #444;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+#botoes-qtd-times .botao-qtd-time:hover {
+  background-color: #555;
+}
+
+#tipo-sorteio {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #555;
+  background-color: #222;
+  color: #eee;
+  font-size: 1rem;
+  min-width: 200px;
+}
+
+/* --- STEP 2: Formulário de Nível/Posição --- */
+
+.form-jogador {
+  margin-bottom: 12px;
+  padding: 12px;
+  background-color: #1e1e1e;
   border-radius: 10px;
 }
 
-/* Linha com nome + botões de nível */
-.linha-jogador-nivel {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 4px;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-
-
-
-/* Nome do jogador com nível */
 .jogador-nome {
   font-weight: bold;
   color: white;
-  font-size: 16px;
-  margin-bottom: 2px;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  display: block; /* Garante que o nome fique em sua própria linha */
 }
 
-
-/* Linha de posição */
-.linha-posicao {
-  display: flex;
-  align-items: center;
-  margin-top: 6px;
-  gap: 12px;
-}
-
-/* Label "Posição:" */
-.posicao-label {
-  min-width: 70px;
-  font-weight: bold;
-  color: #ccc;
-}
-.botoes-nivel {
+.botoes-nivel, .botoes-posicao {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
 }
-.jogador-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
+.botoes-posicao {
+  margin-top: 10px; /* Separa os botões de posição dos de nível */
 }
 
-/* Botões de nível e posição */
 .botoes-nivel button,
 .botoes-posicao button {
   padding: 6px 12px;
@@ -105,131 +170,35 @@ h1 {
   background-color: #02c3bd;
 }
 
-/* Botões selecionados */
+/* Botão Selecionado (para Nível, Posição e Qtd Times) */
 .selecionado {
   background-color: #028090 !important;
 }
-/* Container do passo 1 */
-#step1 {
-  margin-bottom: 2rem;
-}
 
-/* Título do passo 1 */
-#step1 h2 {
-  font-size: 1.75rem;
-  margin-bottom: 1rem;
-  font-weight: bold;
-  color: #fff;
-}
 
-/* Textarea para colar os nomes dos jogadores */
-#jogadores-nomes {
-  width: 100%;
-  min-height: 100px;
-  padding: 12px 16px;
-  border-radius: 8px;
-  border: 1px solid #555;
-  padding: 10px;
-  background-color: #222;
-  color: #eee;
-  font-family: monospace;
-  font-size: 1rem;
-  resize: vertical;
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
-  transition: border-color 0.3s;
-}
-
-#jogadores-nomes:focus {
-  outline: none;
-  border-color: #00a896;
-}
-
-/* Container para os controles de quantidade e tipo de sorteio */
-#container-qtd-times,
-#tipo-sorteio-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+/* --- STEP 3: Resultados --- */
+#times-container {
   margin-top: 1.5rem;
-  align-items: center;
 }
 
-/* Para os elementos internos: label e input/select */
-#container-qtd-times label,
-#tipo-sorteio-container label {
-  font-weight: bold;
-  font-size: 1rem;
-  color: #ccc;
-  margin-right: 8px;
-  min-width: 200px;
+#times-container h3 {
+  color: #00a896;
+  font-size: 1.4rem;
+  border-bottom: 2px solid #028090;
+  padding-bottom: 5px;
 }
 
-#qtd-times {
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #555;
+#times-container ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+#times-container li {
+  font-size: 1.1rem;
+  padding: 8px 5px;
   background-color: #222;
-  color: #eee;
-  font-size: 1rem;
-  max-width: 80px;
-  min-width: 50px;
-}
-
-/* Estilo para o select */
-#tipo-sorteio {
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #555;
-  background-color: #222;
-  color: #eee;
-  font-size: 1rem;
-  min-width: 200px;
-}
-
-/* Botão "Próximo" com visual mais moderno */
-#btn-carregar-posicoes {
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  background-color: #00a896;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 1rem;
-  align-self: flex-start;
-}
-
-#btn-carregar-posicoes:hover {
-  background-color: #02c3bd;
-}
-
-.linha-jogador-nivel {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 10px;
-  background-color: #1e1e1e;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-.jogador-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-}
-
-.jogador-nome {
-  color: white;
-  font-size: 16px;
-}
-
-.botoes-nivel, .botoes-posicao {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
+  margin-bottom: 5px;
+  border-radius: 5px;
 }
 
 
@@ -253,7 +222,7 @@ h1 {
   margin: 15% auto; /* 15% do topo e centralizado horizontalmente */
   padding: 25px;
   border: 1px solid #555;
-  border-radius: 10px;
+  border-radius: 10px; /* <-- CORRIGIDO */
   width: 80%;
   max-width: 400px; /* Largura máxima */
   text-align: center;
@@ -286,15 +255,16 @@ h1 {
 }
 
 
-/* --- Ícones do Rodapé --- */
+/* --- Ícones do Rodapé (CORRIGIDO) --- */
 .footer-icones {
-  position: absolute;
-  bottom: 20px;
+  /* position: absolute; */ /* <-- REMOVIDO para não sobrepor */
+  /* bottom: 20px; */ /* <-- REMOVIDO */
   width: 100%;
   text-align: center;
-  display: flex; /* Para centralizar e espaçar */
+  display: flex; 
   justify-content: center;
-  gap: 25px; /* Espaço entre os ícones */
+  gap: 25px; 
+  margin-top: 20px; /* <-- ADICIONADO para dar espaço */
 }
 
 .footer-icones a {
