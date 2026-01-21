@@ -90,6 +90,86 @@
       <p id="modal-mensagem"></p>
     </div>
   </div>
+  
+
+  <!-- Modal para gerar lista em branco -->
+  <div id="modalGerarLista" class="modal">
+    <div class="modal-content modal-lista">
+      <span class="close-lista">&times;</span>
+      <h2>Gerar Lista em Branco</h2>
+      <form id="form-gerar-lista">
+        <div class="form-group">
+          <label for="dia-semana">Dia da Semana:</label>
+          <input type="text" id="dia-semana" placeholder="Ex: Quarta-feira">
+        </div>
+        
+        <div class="form-group">
+          <label for="local">Local:</label>
+          <input type="text" id="local" placeholder="Ex: Arena Central">
+        </div>
+        
+        <div class="form-group">
+          <label for="horario">Horário:</label>
+          <input type="text" id="horario" placeholder="Ex: 20:30 as 22:00 hrs">
+        </div>
+        
+        <div class="form-group">
+          <label for="valor-mensal">Valor Mensal:</label>
+          <input type="text" id="valor-mensal" placeholder="Ex: R$ 50,00">
+        </div>
+        
+        <div class="form-group">
+          <label for="valor-avulso">Valor Avulso:</label>
+          <input type="text" id="valor-avulso" placeholder="Ex: R$ 15,00">
+        </div>
+        
+        <div class="form-group">
+          <label for="pix-banco">Pix - Banco:</label>
+          <input type="text" id="pix-banco" placeholder="Ex: Banco do Brasil">
+        </div>
+        
+        <div class="form-group">
+          <label for="pix-nome">Pix - Nome:</label>
+          <input type="text" id="pix-nome" placeholder="Ex: Abel Ferreira">
+        </div>
+        
+        <div class="form-group">
+          <label for="pix-telefone">Pix - Chave:</label>
+          <input type="text" id="pix-telefone" placeholder="Ex: 11 9 9999-9999 ou 123.456.789-00">
+        </div>
+        
+        <div class="form-group">
+          <label for="prazo-pagamento">Prazo de Pagamento:</label>
+          <input type="text" id="prazo-pagamento" placeholder="Ex: até as 17 horas">
+        </div>
+        
+        <div class="form-group">
+          <label for="qtd-goleiros">Quantidade de Goleiros:</label>
+          <input type="number" id="qtd-goleiros" min="0" value="0">
+        </div>
+        
+        <div class="form-group">
+          <label for="qtd-espera-goleiros">Quantidade Lista de Espera Goleiros:</label>
+          <input type="number" id="qtd-espera-goleiros" min="0" value="0">
+        </div>
+        
+        <div class="form-group">
+          <label for="qtd-jogadores">Quantidade de Jogadores de Linha:</label>
+          <input type="number" id="qtd-jogadores" min="1" value="18">
+        </div>
+        
+        <div class="form-group">
+          <label for="qtd-espera-jogadores">Quantidade Lista de Espera Jogadores:</label>
+          <input type="number" id="qtd-espera-jogadores" min="0" value="0">
+        </div>
+        
+        <div class="botoes-modal">
+          <button type="button" id="btn-gerar-template">Gerar Lista</button>
+          <button type="button" id="btn-cancelar-lista">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- Modal para gerar lista em branco -->
   <div id="modalGerarLista" class="modal">
