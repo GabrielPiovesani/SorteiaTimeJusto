@@ -13,11 +13,20 @@ const inputQtdTimes = document.getElementById("qtd-times");
 const selectTipoSorteio = document.getElementById("tipo-sorteio");
 const btnCopiar = document.getElementById("btn-copiar");
 const btnSortearNovamente = document.getElementById("btn-sortear-novamente");
+const btnCopiarLista = document.getElementById("btn-copiar-lista");
 
 // --- Elementos do Modal ---
 const modal = document.getElementById("meuModal");
 const modalMensagem = document.getElementById("modal-mensagem");
 const spanClose = document.getElementsByClassName("close")[0];
+
+// --- Elementos do Modal Gerar Lista ---
+const modalGerarLista = document.getElementById("modalGerarLista");
+const btnGerarLista = document.getElementById("btn-gerar-lista");
+const btnGerarTemplate = document.getElementById("btn-gerar-template");
+const btnCancelarLista = document.getElementById("btn-cancelar-lista");
+const spanCloseLista = document.getElementsByClassName("close-lista")[0];
+const btnSortearInicial = document.getElementById("btn-sortear-inicial");
 
 // --- Variáveis Globais ---
 let jogadores = [];
@@ -40,7 +49,218 @@ window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
+  if (event.target == modalGerarLista) {
+    modalGerarLista.style.display = "none";
+  }
 }
+
+// --- Lógica do Modal Gerar Lista ---
+
+// Elementos que aparecem apenas quando vai sortear
+const secaoColarLista = document.querySelector("#step1 h3");
+// jogadoresNomesTextarea e containerQtdTimes já foram declarados acima
+const tipoSorteioContainer = document.getElementById("tipo-sorteio-container");
+
+// Função para mostrar/esconder seção de sortear
+function mostrarSecaoSortear(mostrar) {
+  if (mostrar) {
+    secaoColarLista.style.display = "block";
+    jogadoresNomesTextarea.style.display = "block";
+    containerQtdTimes.style.display = "flex";
+    tipoSorteioContainer.style.display = "flex";
+    btnCarregarPosicoes.style.display = "flex";
+  } else {
+    secaoColarLista.style.display = "none";
+    jogadoresNomesTextarea.style.display = "none";
+    containerQtdTimes.style.display = "none";
+    tipoSorteioContainer.style.display = "none";
+    btnCarregarPosicoes.style.display = "none";
+  }
+  // Atualiza visibilidade do botão copiar
+  atualizarVisibilidadeBotoes();
+}
+
+// Inicialmente esconde as seções de sortear
+mostrarSecaoSortear(false);
+
+// Quando clicar em "Gerar Lista", esconde as seções
+btnGerarLista.onclick = function() {
+  mostrarSecaoSortear(false);
+  carregarDadosLista();
+  modalGerarLista.style.display = "block";
+};
+
+// Quando clicar em "Sortear Times" do menu inicial, mostra as seções
+btnSortearInicial.onclick = function() {
+  mostrarSecaoSortear(true);
+  jogadoresNomesTextarea.focus();
+};
+
+// Função para salvar dados no localStorage
+function salvarDadosLista() {
+  const dados = {
+    diaSemana: document.getElementById("dia-semana").value,
+    local: document.getElementById("local").value,
+    horario: document.getElementById("horario").value,
+    valorMensal: document.getElementById("valor-mensal").value,
+    valorAvulso: document.getElementById("valor-avulso").value,
+    pixBanco: document.getElementById("pix-banco").value,
+    pixNome: document.getElementById("pix-nome").value,
+    pixTelefone: document.getElementById("pix-telefone").value,
+    prazoPagamento: document.getElementById("prazo-pagamento").value,
+    qtdGoleiros: document.getElementById("qtd-goleiros").value,
+    qtdEsperaGoleiros: document.getElementById("qtd-espera-goleiros").value,
+    qtdJogadores: document.getElementById("qtd-jogadores").value,
+    qtdEsperaJogadores: document.getElementById("qtd-espera-jogadores").value
+  };
+  localStorage.setItem("dadosLista", JSON.stringify(dados));
+}
+
+// Função para carregar dados do localStorage
+function carregarDadosLista() {
+  const dadosSalvos = localStorage.getItem("dadosLista");
+  if (dadosSalvos) {
+    const dados = JSON.parse(dadosSalvos);
+    document.getElementById("dia-semana").value = dados.diaSemana || "";
+    document.getElementById("local").value = dados.local || "";
+    document.getElementById("horario").value = dados.horario || "";
+    document.getElementById("valor-mensal").value = dados.valorMensal || "";
+    document.getElementById("valor-avulso").value = dados.valorAvulso || "";
+    document.getElementById("pix-banco").value = dados.pixBanco || "";
+    document.getElementById("pix-nome").value = dados.pixNome || "";
+    document.getElementById("pix-telefone").value = dados.pixTelefone || "";
+    document.getElementById("prazo-pagamento").value = dados.prazoPagamento || "";
+    document.getElementById("qtd-goleiros").value = dados.qtdGoleiros || "0";
+    document.getElementById("qtd-espera-goleiros").value = dados.qtdEsperaGoleiros || "0";
+    document.getElementById("qtd-jogadores").value = dados.qtdJogadores || "18";
+    document.getElementById("qtd-espera-jogadores").value = dados.qtdEsperaJogadores || "0";
+  }
+}
+
+btnGerarLista.onclick = function() {
+  carregarDadosLista(); // Carrega dados salvos ao abrir o modal
+  modalGerarLista.style.display = "block";
+}
+
+spanCloseLista.onclick = function() {
+  modalGerarLista.style.display = "none";
+}
+
+btnCancelarLista.onclick = function() {
+  modalGerarLista.style.display = "none";
+}
+
+// Função para gerar o template da lista
+function gerarTemplateLista() {
+  const diaSemana = document.getElementById("dia-semana").value;
+  const local = document.getElementById("local").value;
+  const horario = document.getElementById("horario").value;
+  const valorMensal = document.getElementById("valor-mensal").value;
+  const valorAvulso = document.getElementById("valor-avulso").value;
+  const pixBanco = document.getElementById("pix-banco").value;
+  const pixNome = document.getElementById("pix-nome").value;
+  const pixTelefone = document.getElementById("pix-telefone").value;
+  const prazoPagamento = document.getElementById("prazo-pagamento").value;
+  const qtdGoleiros = parseInt(document.getElementById("qtd-goleiros").value) || 0;
+  const qtdEsperaGoleiros = parseInt(document.getElementById("qtd-espera-goleiros").value) || 0;
+  const qtdJogadores = parseInt(document.getElementById("qtd-jogadores").value) || 18;
+  const qtdEsperaJogadores = parseInt(document.getElementById("qtd-espera-jogadores").value) || 0;
+  
+  // Validação básica
+  if (!diaSemana || !local || !horario) {
+    mostrarModal("Por favor, preencha pelo menos: Dia da Semana, Local e Horário.");
+    return null;
+  }
+  
+  let lista = `LISTA FUTEBOL – ${diaSemana}\n\n`;
+  lista += `Local : ${local}–${horario}\n`;
+  lista += `Valor mensal: ${valorMensal} (M)\n`;
+  lista += `Valor avulso:\n${valorAvulso} (A)\n\n`;
+  lista += `Pix:${pixBanco}:\n`;
+  lista += `${pixNome} – ${pixTelefone}\n\n`;
+  lista += `Pagamento ${prazoPagamento}, se não libera vaga para os da lista de espera.\n\n`;
+  
+  // Seção de goleiros
+  if (qtdGoleiros > 0) {
+    lista += `Goleiros (não pagam):\n`;
+    for (let i = 1; i <= qtdGoleiros; i++) {
+      lista += `${String(i).padStart(2, '0')} - \n`;
+    }
+    
+    if (qtdEsperaGoleiros > 0) {
+      lista += `Espera goleiro:\n`;
+      for (let i = 1; i <= qtdEsperaGoleiros; i++) {
+        lista += `${String(i).padStart(2, '0')} - \n`;
+      }
+    }
+    lista += `\n`;
+  }
+  
+  // Seção de jogadores de linha
+  lista += `Jogadores de linha :\n`;
+  for (let i = 1; i <= qtdJogadores; i++) {
+    lista += `${String(i).padStart(2, '0')}- \n`;
+  }
+  
+  // Lista de espera
+  if (qtdEsperaJogadores > 0) {
+    lista += `\nLista de espera:\n`;
+    for (let i = 1; i <= qtdEsperaJogadores; i++) {
+      lista += `${i} - \n`;
+    }
+  }
+  
+  return lista;
+}
+
+btnGerarTemplate.onclick = function() {
+  const listaGerada = gerarTemplateLista();
+  if (listaGerada) {
+    salvarDadosLista(); // Salva os dados antes de gerar
+    jogadoresNomesTextarea.value = listaGerada;
+    modalGerarLista.style.display = "none";
+    mostrarSecaoSortear(true); // Mostra as seções após gerar a lista
+    atualizarVisibilidadeBotoes(); // Atualiza visibilidade dos botões
+    mostrarModal("Lista gerada com sucesso! Preencha os nomes dos jogadores.");
+  }
+}
+
+// Função para copiar a lista do textarea
+btnCopiarLista.onclick = function() {
+  const textoLista = jogadoresNomesTextarea.value.trim();
+  if (!textoLista) {
+    mostrarModal("Não há lista para copiar.");
+    return;
+  }
+  
+  navigator.clipboard.writeText(textoLista)
+    .then(() => mostrarModal("Lista copiada para a área de transferência!"))
+    .catch(() => mostrarModal("Não foi possível copiar a lista."));
+}
+
+// Função para atualizar visibilidade do botão copiar baseado no conteúdo do textarea
+function atualizarVisibilidadeBotoes() {
+  const temConteudo = jogadoresNomesTextarea.value.trim().length > 0;
+  
+  // Mostra botão de copiar apenas se tiver conteúdo
+  if (temConteudo) {
+    btnCopiarLista.style.display = "flex";
+  } else {
+    btnCopiarLista.style.display = "none";
+  }
+  
+  // Os botões "Gerar Lista" e "Sortear Times" sempre ficam visíveis
+}
+
+// Monitora mudanças no textarea
+jogadoresNomesTextarea.addEventListener("input", atualizarVisibilidadeBotoes);
+jogadoresNomesTextarea.addEventListener("paste", function() {
+  // Aguarda um pouco para o paste completar
+  setTimeout(atualizarVisibilidadeBotoes, 100);
+});
+
+// Inicializa a visibilidade dos botões ao carregar a página
+atualizarVisibilidadeBotoes();
 
 // --- Lógica do Aplicativo ---
 
@@ -48,8 +268,67 @@ function limparNome(nome) {
   return nome
     .replace(/^\d+\s*[-–—]\s*/g, "")
     .replace(/✅/g, "")
+    .replace(/💲Dinhero💰/g, "")
+    .replace(/\(M\)/g, "")
+    .replace(/\(A\)/g, "")
     .replace(/\[.*?\]/g, "")
     .trim();
+}
+
+// Função para extrair apenas jogadores de linha, ignorando goleiros e lista de espera
+function extrairJogadoresLinha(texto) {
+  const linhas = texto.split("\n");
+  const jogadores = [];
+  let encontrouJogadoresLinha = false;
+  let indiceInicio = -1;
+  
+  // Passo 1: Encontrar onde começa "Jogadores de linha"
+  for (let i = 0; i < linhas.length; i++) {
+    const linhaLower = linhas[i].toLowerCase().trim();
+    
+    if (linhaLower.includes("jogadores") && linhaLower.includes("linha")) {
+      encontrouJogadoresLinha = true;
+      indiceInicio = i + 1; // Próxima linha após o cabeçalho
+      break;
+    }
+  }
+  
+  if (!encontrouJogadoresLinha) {
+    return [];
+  }
+  
+  // Passo 2: Processar todas as linhas abaixo até encontrar "Lista de espera"
+  for (let i = indiceInicio; i < linhas.length; i++) {
+    let linha = linhas[i].trim();
+    const linhaLower = linha.toLowerCase();
+    
+    // Para na lista de espera
+    if (linhaLower.includes("lista de espera")) {
+      break;
+    }
+    
+    // Ignora linhas vazias
+    if (linha.length === 0) {
+      continue;
+    }
+    
+    // Procura por linhas que começam com número seguido de hífen/traço
+    // Aceita: "01- nome", "01 - nome", "1- nome", etc.
+    const match = linha.match(/^\d+\s*[-–—]\s*(.+)$/);
+    if (match && match[1]) {
+      const nomeCompleto = match[1].trim();
+      
+      if (nomeCompleto.length > 0) {
+        const nomeLimpo = limparNome(nomeCompleto);
+        
+        if (nomeLimpo.length > 0) {
+          jogadores.push(nomeLimpo);
+        }
+      }
+    }
+  }
+  
+  return jogadores;
 }
 
 function criarFormularioPosicoes(jogadoresNomes) {
@@ -147,23 +426,24 @@ document.querySelectorAll(".botao-qtd-time").forEach(btn => {
   });
 });
 
-// Botão PRÓXIMO (Step 1)
+// Botão PRÓXIMO (Step 1) - Agora processa o sorteio
 btnCarregarPosicoes.addEventListener("click", () => {
   const rawText = jogadoresNomesTextarea.value.trim();
+  
+  // Se não tem conteúdo, apenas mostra as seções (sem erro)
   if (!rawText) {
-    mostrarModal("Digite ao menos um nome.");
+    mostrarSecaoSortear(true);
+    jogadoresNomesTextarea.focus();
     return;
   }
 
   tipoSorteioSelecionado = selectTipoSorteio.value;
 
-  const nomes = rawText
-    .split("\n")
-    .map(n => limparNome(n))
-    .filter(n => n.length > 0);
+  // Usa a nova função para extrair apenas jogadores de linha
+  const nomes = extrairJogadoresLinha(rawText);
 
   if (nomes.length < 2) {
-    mostrarModal("Digite ao menos 2 jogadores.");
+    mostrarModal(`Encontrados apenas ${nomes.length} jogador(es). Certifique-se de que a lista contém a seção 'Jogadores de linha' com jogadores numerados (ex: 01- nome, 02- nome, etc.).`);
     return;
   }
 

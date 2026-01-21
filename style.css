@@ -1,59 +1,192 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  padding: 2rem 0;
+  padding: 1rem;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-image: url('backgrounddev.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed;
   backdrop-filter: brightness(0.6);
   min-height: 100vh;
   color: white;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: column;
-  box-sizing: border-box;
 }
 
 .container {
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 2rem;
-  border-radius: 16px;
+  background-color: rgba(0, 0, 0, 0.75);
+  padding: 1.5rem;
+  border-radius: 20px;
   max-width: 600px;
-  width: 90%;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  width: 100%;
+  margin: 0 auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 h1, h2 {
   text-align: center;
   margin-bottom: 1.5rem;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: bold;
   color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Container para botões do step3 */
+#step3 {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Wrapper para botões do step3 */
+.botoes-step3 {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+/* No desktop, botões ficam lado a lado */
+@media (min-width: 769px) {
+  .botoes-step3 {
+    flex-direction: row;
+  }
+  
+  .botoes-step3 button {
+    flex: 1;
+  }
 }
 
 /* --- ESTILO DOS BOTÕES PRINCIPAIS --- */
-#btn-carregar-posicoes,
+/* --- Container dos Botões Principais --- */
+.botoes-principais {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+/* Menu inicial no topo */
+.menu-inicial {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid rgba(0, 168, 150, 0.3);
+}
+
+/* --- ESTILO DOS BOTÕES PRINCIPAIS --- */
 #btn-sorteio,
-#step3 button { /* Isso pega TODOS os botões no step3 */
-  padding: 10px 20px;
-  border-radius: 8px;
+.botao-principal {
+  padding: 14px 28px;
+  border-radius: 12px;
   border: none;
-  background-color: #00a896;
+  background: linear-gradient(135deg, #00a896 0%, #02c3bd 100%);
   color: white;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 1rem;
-  font-size: 1rem;
-  margin-right: 8px; /* Espaço entre os botões do step3 */
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 15px rgba(0, 168, 150, 0.3);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
-#btn-carregar-posicoes:hover,
-#btn-sorteio:hover,
-#step3 button:hover {
-  background-color: #02c3bd;
+.botao-principal:hover {
+  background: linear-gradient(135deg, #02c3bd 0%, #00a896 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 168, 150, 0.4);
+}
+
+.botao-principal i {
+  font-size: 1.2rem;
+}
+
+/* --- ESTILO DOS BOTÕES SECUNDÁRIOS --- */
+.botao-secundario {
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: 2px solid #028090;
+  background: transparent;
+  color: #02c3bd;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.botao-secundario:hover {
+  background: rgba(2, 128, 144, 0.1);
+  border-color: #02c3bd;
+  transform: translateY(-2px);
+  color: #00a896;
+}
+
+.botao-secundario i {
+  font-size: 1rem;
+}
+
+/* Botão Próximo (mantém estilo antigo para compatibilidade) */
+#btn-carregar-posicoes {
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #00a896 0%, #02c3bd 100%);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 168, 150, 0.3);
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.botoes-step3 button {
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #00a896 0%, #02c3bd 100%);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 168, 150, 0.3);
+  width: 100%;
+}
+
+#btn-carregar-posicoes:hover {
+  background: linear-gradient(135deg, #02c3bd 0%, #00a896 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 168, 150, 0.4);
+}
+
+.botoes-step3 button:hover {
+  background: linear-gradient(135deg, #02c3bd 0%, #00a896 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 168, 150, 0.4);
+}
+
+#btn-carregar-posicoes:active,
+#btn-sorteio:active,
+.botoes-step3 button:active {
+  transform: translateY(0);
 }
 
 /* --- STEP 1: Lista de Jogadores --- */
@@ -61,76 +194,125 @@ h1, h2 {
   margin-bottom: 2rem;
 }
 
+/* Seções que aparecem apenas quando vai sortear */
+#step1 h3,
+#step1 #jogadores-nomes,
+#step1 #container-qtd-times,
+#step1 #tipo-sorteio-container,
+#step1 #btn-carregar-posicoes {
+  display: none;
+}
+
+#step1 #container-qtd-times {
+  display: none;
+  flex-direction: column;
+}
+
+#step1 #tipo-sorteio-container {
+  display: none;
+  flex-direction: column;
+}
+
 #jogadores-nomes {
   width: 100%;
-  min-height: 100px;
-  box-sizing: border-box; /* Garante que o padding não estoure */
-  padding: 12px 16px;
-  border-radius: 8px;
-  border: 1px solid #555;
-  background-color: #222;
+  min-height: 120px;
+  box-sizing: border-box;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 2px solid #444;
+  background-color: rgba(34, 34, 34, 0.9);
   color: #eee;
-  font-family: monospace;
-  font-size: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
   resize: vertical;
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
-  transition: border-color 0.3s;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
 }
 
 #jogadores-nomes:focus {
   outline: none;
   border-color: #00a896;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 0 3px rgba(0, 168, 150, 0.2);
+  background-color: rgba(40, 40, 40, 0.95);
 }
 
 #container-qtd-times,
 #tipo-sorteio-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.75rem;
   margin-top: 1.5rem;
-  align-items: center;
+  align-items: stretch;
 }
 
 #container-qtd-times label,
 #tipo-sorteio-container label {
   font-weight: bold;
-  font-size: 1rem;
-  color: #ccc;
-  margin-right: 8px;
+  font-size: 0.95rem;
+  color: #ddd;
+  margin-bottom: 0.5rem;
 }
 
 /* Botões de Quantidade de Times */
+#botoes-qtd-times {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
 #botoes-qtd-times .botao-qtd-time {
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: none;
-  background-color: #444;
+  flex: 1;
+  min-width: 50px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 2px solid #555;
+  background-color: #333;
   color: white;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  font-size: 1rem;
 }
+
 #botoes-qtd-times .botao-qtd-time:hover {
-  background-color: #555;
+  background-color: #444;
+  border-color: #00a896;
+  transform: translateY(-2px);
 }
 
 #tipo-sorteio {
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #555;
-  background-color: #222;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 2px solid #555;
+  background-color: rgba(34, 34, 34, 0.9);
   color: #eee;
   font-size: 1rem;
-  min-width: 200px;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#tipo-sorteio:focus {
+  outline: none;
+  border-color: #00a896;
+  box-shadow: 0 0 0 3px rgba(0, 168, 150, 0.2);
 }
 
 /* --- STEP 2: Formulário de Nível/Posição --- */
 
 .form-jogador {
   margin-bottom: 12px;
-  padding: 12px;
-  background-color: #1e1e1e;
-  border-radius: 10px;
+  padding: 14px;
+  background-color: rgba(30, 30, 30, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.form-jogador:hover {
+  background-color: rgba(40, 40, 40, 0.9);
+  border-color: rgba(0, 168, 150, 0.3);
 }
 
 .jogador-nome {
@@ -152,33 +334,40 @@ h1, h2 {
 
 .botoes-nivel button,
 .botoes-posicao button {
-  padding: 6px 12px;
+  padding: 8px 14px;
   margin: 0;
-  border-radius: 8px;
-  border: none;
-  background-color: #00a896;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background: linear-gradient(135deg, #00a896 0%, #02c3bd 100%);
   color: white;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s;
-  min-width: 40px;
+  transition: all 0.3s ease;
+  min-width: 50px;
   text-align: center;
+  font-size: 0.9rem;
+  flex: 1;
 }
 
 .botoes-nivel button:hover,
 .botoes-posicao button:hover {
-  background-color: #02c3bd;
+  background: linear-gradient(135deg, #02c3bd 0%, #00a896 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 168, 150, 0.3);
 }
 
 /* Botão Selecionado (para Nível, Posição e Qtd Times) */
 .selecionado {
-  background-color: #028090 !important;
+  background: linear-gradient(135deg, #028090 0%, #05668d 100%) !important;
+  border-color: #00a896 !important;
+  box-shadow: 0 4px 12px rgba(2, 128, 144, 0.4) !important;
 }
 
 
 /* --- STEP 3: Resultados --- */
 #times-container {
   margin-top: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 #times-container h3 {
@@ -277,4 +466,249 @@ h1, h2 {
 .footer-icones a:hover {
   color: #00a896; /* Cor do hover (verde do site) */
   transform: scale(1.15); /* Efeito de leve zoom */
+}
+
+/* --- Estilos do Modal Gerar Lista --- */
+.modal-lista {
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-lista h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #00a896;
+}
+
+#form-gerar-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: bold;
+  color: #ddd;
+  font-size: 0.95rem;
+}
+
+.form-group input {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 2px solid #555;
+  background-color: rgba(34, 34, 34, 0.9);
+  color: #eee;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #00a896;
+  box-shadow: 0 0 0 3px rgba(0, 168, 150, 0.2);
+  background-color: rgba(40, 40, 40, 0.95);
+}
+
+.form-group input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.form-group input[type="number"]::-webkit-outer-spin-button,
+.form-group input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.botoes-modal {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.botoes-modal button {
+  flex: 1;
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+#btn-gerar-template {
+  background: linear-gradient(135deg, #00a896 0%, #02c3bd 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 168, 150, 0.3);
+}
+
+#btn-gerar-template:hover {
+  background: linear-gradient(135deg, #02c3bd 0%, #00a896 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 168, 150, 0.4);
+}
+
+#btn-cancelar-lista {
+  background-color: #555;
+  color: white;
+}
+
+#btn-cancelar-lista:hover {
+  background-color: #666;
+  transform: translateY(-2px);
+}
+
+.close-lista {
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-lista:hover,
+.close-lista:focus {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Responsivo para modal de gerar lista */
+@media (max-width: 768px) {
+  .modal-lista {
+    width: 95%;
+    padding: 20px;
+  }
+  
+  .botoes-modal {
+    flex-direction: column;
+  }
+  
+  .botoes-modal button {
+    width: 100%;
+  }
+  
+  .botoes-principais {
+    gap: 0.5rem;
+  }
+  
+  .botao-principal,
+  .botao-secundario {
+    font-size: 0.95rem;
+    padding: 12px 20px;
+  }
+}
+
+/* --- Media Queries para Mobile --- */
+@media (max-width: 768px) {
+  body {
+    padding: 0.5rem;
+    align-items: stretch;
+  }
+
+  .container {
+    padding: 1.25rem;
+    border-radius: 16px;
+    margin: 0.5rem auto;
+  }
+
+  h1, h2 {
+    font-size: 1.35rem;
+    margin-bottom: 1.25rem;
+  }
+
+  #jogadores-nomes {
+    min-height: 150px;
+    font-size: 0.9rem;
+    padding: 12px 14px;
+  }
+
+  #btn-carregar-posicoes,
+  #btn-sorteio {
+    padding: 14px 20px;
+    font-size: 1rem;
+  }
+
+  .botoes-step3 button {
+    padding: 14px 20px;
+    font-size: 1rem;
+  }
+
+  .form-jogador {
+    padding: 12px;
+  }
+
+  .jogador-nome {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+
+  .botoes-nivel, .botoes-posicao {
+    gap: 4px;
+  }
+
+  .botoes-nivel button,
+  .botoes-posicao button {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+    min-width: 45px;
+  }
+
+  #times-container h3 {
+    font-size: 1.2rem;
+  }
+
+  #times-container li {
+    font-size: 1rem;
+    padding: 10px 8px;
+  }
+
+  .modal-content {
+    width: 90%;
+    padding: 20px;
+    margin: 20% auto;
+  }
+
+  #modal-mensagem {
+    font-size: 1rem;
+  }
+
+  .footer-icones {
+    margin-top: 15px;
+    gap: 20px;
+  }
+
+  .footer-icones a {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  h1, h2 {
+    font-size: 1.2rem;
+  }
+
+  #botoes-qtd-times .botao-qtd-time {
+    min-width: 40px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
+  #tipo-sorteio {
+    padding: 10px 14px;
+    font-size: 0.95rem;
+  }
 }
